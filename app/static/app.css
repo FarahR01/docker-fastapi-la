@@ -1,0 +1,17 @@
+:root{--bg:#f7f8fb;--card:#fff;--muted:#666;--accent:#3b82f6}
+*{box-sizing:border-box}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);margin:0;color:#111}
+.container{max-width:720px;margin:32px auto;padding:20px}
+header{display:flex;justify-content:space-between;align-items:center}
+.docs{font-size:14px;color:var(--accent);text-decoration:none}
+.new-task{display:flex;gap:8px;margin-top:16px}
+input#title{flex:1;padding:10px;border:1px solid #ddd;border-radius:6px}
+button#add{padding:10px 14px;border-radius:6px;border:none;background:var(--accent);color:#fff}
+.list{margin-top:18px}
+.card{background:var(--card);padding:12px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;border:1px solid #eee;margin-bottom:8px}
+.meta{display:flex;gap:12px;align-items:center}
+.title{font-weight:600}
+.muted{color:var(--muted);font-size:13px}
+.actions button{margin-left:8px;border:none;background:transparent;cursor:pointer}
+.actions button.delete{color:#ef4444}
+.actions button.toggle{color:var(--accent)}
