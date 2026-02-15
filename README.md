@@ -52,23 +52,71 @@ task-tracker/
 
 ## 🧭 Quick start
 
-1. Create and activate a virtualenv (Windows PowerShell):
+1. Prerequisites
+
+- Install Python 3.9+ (recommend 3.10+). Verify versions:
+
+```bash
+python --version
+pip --version
+```
+
+- Install Git and Docker (optional, for container builds).
+
+2. Create & activate a virtual environment
+
+PowerShell (Windows):
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-2. Install dependencies and run the app:
+macOS / Linux:
 
-```powershell
-pip install -r requirements.txt
-python -m uvicorn app:app --reload
-# or
-python -m uvicorn app.main:app --reload
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-Open http://127.0.0.1:8000/ for the UI and http://127.0.0.1:8000/docs for API docs.
+3. Install dependencies
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+4. Web server / run the app
+
+This project is an ASGI app served with Uvicorn. From the project root run:
+
+```bash
+# development (auto-reload)
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+# alternative import path
+python -m uvicorn app:app --reload
+```
+
+For production use a dedicated server process (example):
+
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+```
+
+If running inside Docker, bind to `0.0.0.0` so the container port is reachable from the host.
+
+5. Test the app in a browser
+
+- Open the UI: http://127.0.0.1:8000/
+- API docs: http://127.0.0.1:8000/docs
+- Health check: GET http://127.0.0.1:8000/health
+
+6. Notes
+
+- The SQLite DB file `app/tasks.db` is created automatically by [app/db.py](app/db.py) on startup.
+- Always run commands from the repository root so static file and DB paths resolve correctly.
+- No environment variables are required for the basic local run.
+- Consider persisting `app/tasks.db` with a host volume when running in Docker so data survives container recreation.
 
 ## ♻️ Persistence
 
