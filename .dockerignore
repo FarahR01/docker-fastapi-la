@@ -1,0 +1,12 @@
+__pycache__/
+.venv/
+.env
+.git
+*.pyc
+*.pyo
+.pytest_cache/
+*.log
+node_modules/
+app/tasks.db
+Dockerfile
+README.md
