@@ -1,8 +1,10 @@
+import os
+from typing import List, Optional
+
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from typing import List
 
 from . import db
 from .schemas import TaskIn, Task
@@ -15,6 +17,9 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 # Jinja2 templates
 templates = Jinja2Templates(directory="app/templates")
 
+# Default color from environment
+DEFAULT_COLOR = os.getenv("APP_COLOR", "#333")
+
 
 @app.on_event("startup")
 def startup_event():
@@ -22,12 +27,13 @@ def startup_event():
 
 
 @app.get("/")
-def index(request: Request, color: str = "#333"):
-    """Render the UI template. Pass `color` (query param) into the template.
+def index(request: Request, color: Optional[str] = None):
+    """Render the UI template. Query `color` overrides `APP_COLOR`.
 
     Example: GET /?color=%23ff0000
     """
-    return templates.TemplateResponse("index.html", {"request": request, "color": color})
+    use_color = color or DEFAULT_COLOR
+    return templates.TemplateResponse("index.html", {"request": request, "color": use_color})
 
 
 @app.get("/health")
