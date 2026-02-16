@@ -1,6 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from typing import List
 
 from . import db
@@ -11,15 +12,22 @@ app = FastAPI()
 # Serve static assets and UI
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
+# Jinja2 templates
+templates = Jinja2Templates(directory="app/templates")
+
 
 @app.on_event("startup")
 def startup_event():
     db.init_db()
 
 
-@app.get("/", response_class=FileResponse)
-def index():
-    return FileResponse("app/static/index.html")
+@app.get("/")
+def index(request: Request, color: str = "#333"):
+    """Render the UI template. Pass `color` (query param) into the template.
+
+    Example: GET /?color=%23ff0000
+    """
+    return templates.TemplateResponse("index.html", {"request": request, "color": color})
 
 
 @app.get("/health")

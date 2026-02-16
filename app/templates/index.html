@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="/static/app.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1 style="color: {{ color }}">Task Tracker</h1>
+        <a class="docs" href="/docs">API Docs</a>
+      </header>
+
+      <section class="new-task">
+        <input id="title" placeholder="New task title" />
+        <button id="add">Add Task</button>
+      </section>
+
+      <section id="list" class="list">
+        <p class="loading">Loading tasks…</p>
+      </section>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
